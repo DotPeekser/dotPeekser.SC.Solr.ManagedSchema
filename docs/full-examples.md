@@ -7,7 +7,7 @@
 <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
   <sitecore>
     <contentSearch>
-      <customSolrManagedSchema>
+      <solr.customSolrManagedSchema>
         <commands applyToIndex="sitecore_master_index">
           <!-- Adds / Replace (if exists) a field -->
           <Field>
@@ -26,7 +26,7 @@
 <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
   <sitecore>
     <contentSearch>
-      <customSolrManagedSchema>
+      <solr.customSolrManagedSchema>
         <commands applyToIndex="sitecore_master_index">
           <!-- Removes the __boost field -->
           <Field delete="true">
@@ -46,7 +46,7 @@
 <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
   <sitecore>
     <contentSearch>
-      <customSolrManagedSchema>
+      <solr.customSolrManagedSchema>
         <commands applyToIndex="sitecore_master_index">
           <!-- Adds / Replace (if exists) a dynamic field -->
           <DynamicField>
@@ -65,7 +65,7 @@
 <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
   <sitecore>
     <contentSearch>
-      <customSolrManagedSchema>
+      <solr.customSolrManagedSchema>
         <commands applyToIndex="sitecore_master_index">
           <!-- Removes the *_ls_en dynamic field -->
           <DynamicField delete="true">
@@ -109,7 +109,7 @@
 <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
   <sitecore>
     <contentSearch>
-      <customSolrManagedSchema>
+      <solr.customSolrManagedSchema>
         <commands applyToIndex="sitecore_master_index">
           <!-- Removes a copyfield -->
           <CopyField delete="true">
