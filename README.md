@@ -1,6 +1,7 @@
 # Sitecore.Solr.ManagedSchema
 Provides a processor to configure the managed-schema through Sitecore.  
 The definition is based on the solr documentation: https://solr.apache.org/guide/8_2/schema-api.html  
+
 If a field or type already exists in solr it will be replaced. If you want to delete a specific field, the node needs to have the delete attribute with the value true in place. delete="true"
 
 > Sitecore removes all fields and types by default on every “Populate Schema” process and populates it with his own configured data.
@@ -207,3 +208,5 @@ Ensure that all referenced filesystem files (ex. `synonyms_de.txt`) are placed i
   </queryAnalyzer>
 </Type>
 ```
+
+For full examples take a look on this link.[Click here](docs/full-examples.md).
