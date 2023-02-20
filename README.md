@@ -209,4 +209,4 @@ Ensure that all referenced filesystem files (ex. `synonyms_de.txt`) are placed i
 </Type>
 ```
 
-For full examples take a look on this link.[Click here](docs/full-examples.md).
+For full examples take a look on this link. [Click here](docs/full-examples.md).

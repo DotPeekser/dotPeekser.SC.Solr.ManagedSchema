@@ -121,7 +121,7 @@
     </contentSearch>
   </sitecore>
 </configuration>
-``´
+```
 
 **Multiple commands
 
