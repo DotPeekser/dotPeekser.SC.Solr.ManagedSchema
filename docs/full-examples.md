@@ -123,7 +123,7 @@
 </configuration>
 ```
 
-**Multiple commands
+**Multiple commands**
 
 ```xml
 <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
