@@ -11,4 +11,11 @@
 	<ItemGroup>
 		<PackageReference Include="Sitecore.ContentSearch.SolrProvider" Version="10.2.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Make internal methods available to .Tests project https://www.meziantou.net/declaring-internalsvisibleto-in-the-csproj.htm -->
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>$(AssemblyName).Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 </Project>

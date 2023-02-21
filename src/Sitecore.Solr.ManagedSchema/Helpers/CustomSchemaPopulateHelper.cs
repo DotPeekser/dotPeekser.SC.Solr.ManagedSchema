@@ -7,13 +7,11 @@
     using System.Xml;
     using System.Xml.Linq;
     using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
-    using Sitecore.Configuration;
     using Sitecore.ContentSearch.Linq.Utilities;
     using Sitecore.ContentSearch.SolrProvider.Pipelines.PopulateSolrSchema;
-    using Sitecore.Diagnostics;
-    using Sitecore.Solr.ManagedSchema.Attributes;
     using Sitecore.Solr.ManagedSchema.Data;
     using Sitecore.Solr.ManagedSchema.Extensions;
+    using Sitecore.Solr.ManagedSchema.Interfaces;
     using Sitecore.Xml;
     using SolrNet.Schema;
 
@@ -23,6 +21,8 @@
 
         private readonly SolrSchema _solrSchema;
         private readonly string _indexName;
+        private readonly IXmlReaderFactory _xmlReaderFactory;
+        private readonly IManagedSchemaLogger _managedSchemaLogger;
 
         private readonly ConfigNodeType[] NodeFields = {
             ConfigNodeType.Field,
@@ -34,10 +34,12 @@
             ConfigNodeType.Type
         };
 
-        public CustomSchemaPopulateHelper(SolrSchema solrSchema, string indexName)
+        public CustomSchemaPopulateHelper(SolrSchema solrSchema, string indexName, IXmlReaderFactory xmlReaderFactory, IManagedSchemaLogger managedSchemaLogger)
         {
+            this._managedSchemaLogger = managedSchemaLogger;
             this._solrSchema = solrSchema;
             this._indexName = indexName;
+            this._xmlReaderFactory = xmlReaderFactory;
         }
 
         public IEnumerable<XElement> GetAllFields()
@@ -92,13 +94,13 @@
         {
             List<KeyValuePair<ConfigNodeType, XElement>> elements = new();
 
-            XmlNodeList commands = Factory.GetConfigNodes(ManagedSchemaConstants.CommandsXmlPath);
+            XmlNodeList commands = this._xmlReaderFactory.GetConfigNodes(ManagedSchemaConstants.CommandsXmlPath);
 
             foreach (XmlNode command in commands)
             {
                 if (!this.IsApplicable(command, this._indexName))
                 {
-                    Log.Debug(
+                    this._managedSchemaLogger.Debug(
                         $"Skipping command with applyToIndex '{XmlUtil.GetAttribute("applyToIndex", command)}' because its not applicable with the current index name '{this._indexName}'.",
                         this);
 
@@ -144,7 +146,7 @@
             {
                 string allowedNodeTypes = string.Join(",", Enum.GetValues(typeof(ConfigNodeType)));
 
-                Log.Error(
+                this._managedSchemaLogger.Error(
                     $"Element name does not match with one of the defined config node types. Name: {name} - Valid names: {allowedNodeTypes}",
                     this);
 
@@ -190,14 +192,13 @@
 
             if (string.IsNullOrEmpty(nameValue))
             {
-                Log.Error("The element needs a valid name to be created.", this);
+                this._managedSchemaLogger.Error("The element needs a valid name to be created.", this);
 
                 return null;
             }
 
             Operation operation = this.GetOperation(element, type);
-            string name = type.GetAttributeOfType<SolrNodeTypeAttribute>().Name;
-            string command = $"{operation.ToString().ToLower()}-{name}";
+            string command = CommandHelper.GetCommand(type, operation);
 
             XElement finalElement;
 
@@ -252,7 +253,7 @@
             if (!this.TypeExists(typeValue))
             {
                 // Fields without a defined type are not valid.
-                Log.Warn(
+                this._managedSchemaLogger.Warn(
                     $"Can't create the field because the defined type doesn't exists in the solr schema. Missing type: {typeValue}",
                     this);
 
@@ -266,8 +267,7 @@
         {
             Operation operation = this.HasDeleteFlag(element) ? Operation.Delete : Operation.Add;
 
-            string name = type.GetAttributeOfType<SolrNodeTypeAttribute>().Name;
-            string command = $"{operation.ToString().ToLower()}-{name}";
+            string command = CommandHelper.GetCommand(type, operation);
             string source = this.GetValueFromElement(element, ManagedSchemaConstants.SolrCopyField.Source);
             string destinations = string.Join(", ", element.Elements(ManagedSchemaConstants.SolrCopyField.Dest).Select(x => x.Value));
 
@@ -309,7 +309,7 @@
 
             if (operation == Operation.Delete && this.TypeExists(nameValue) is false)
             {
-                Log.Warn(
+                this._managedSchemaLogger.Warn(
                     $"Skipping the delete operation for '{nameValue}' because the current type doesn't exists in the solr schema.",
                     this);
 

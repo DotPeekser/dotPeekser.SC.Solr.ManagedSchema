@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal static class EnumExtensions
+    public static class EnumExtensions
     {
         /// <summary>
         /// Gets an attribute on an enum field value

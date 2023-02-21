@@ -10,14 +10,21 @@
     using Sitecore.ContentSearch.SolrProvider.SolrOperations;
     using Sitecore.Diagnostics;
     using Sitecore.Solr.ManagedSchema.Helpers;
+    using Sitecore.Solr.ManagedSchema.Interfaces;
     using SolrNet.Schema;
 
     public class CustomPopulateFields : PopulateManagedSchemaProcessor
     {
         private readonly ISolrConnector _solrConnector;
+        private readonly IXmlReaderFactory _xmlReaderFactory;
+        private readonly IManagedSchemaLogger _managedSchemaLogger;
 
-        public CustomPopulateFields()
+        public CustomPopulateFields(IXmlReaderFactory xmlReaderFactory, IManagedSchemaLogger managedSchemaLogger)
         {
+            this._managedSchemaLogger = managedSchemaLogger;
+            this._xmlReaderFactory = xmlReaderFactory;
+
+            /* Not working through constructor DI */
             this._solrConnector = ServiceLocator.Current.GetInstance<ISolrConnector>();
         }
 
@@ -62,7 +69,7 @@
         {
             SolrSchema managedSchema = operations.GetManagedSchema();
             Assert.IsNotNull(managedSchema, "schema");
-            return new CustomSchemaPopulateHelper(managedSchema, this._indexName);
+            return new CustomSchemaPopulateHelper(managedSchema, this._indexName, this._xmlReaderFactory, this._managedSchemaLogger);
         }
 
         private void SendCommands(ISolrOperationsEx<Dictionary<string, object>> operations, List<XElement> commands)
