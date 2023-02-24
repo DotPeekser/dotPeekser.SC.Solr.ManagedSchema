@@ -1,4 +1,4 @@
-# Sitecore.Solr.ManagedSchema
+# dotPeekser.Solr.ManagedSchema
 Provides a processor to configure the managed-schema through Sitecore.  
 The definition is based on the solr documentation: https://solr.apache.org/guide/8_2/schema-api.html  
 
