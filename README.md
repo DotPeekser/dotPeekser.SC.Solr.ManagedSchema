@@ -12,6 +12,12 @@ If a field or type already exists in solr it will be replaced. If you want to de
 > Example: If you configure an auto suggest handler which references a new created type you have to configure the new type in the managed-schema file even if its defined with this configuration.
 > If you don't do it you will have a corrupt managed-schema file because solr checks the file before Sitecore populates it. Workaround: Configure it in both places to ensure the new field still exists after populate.
 
+Compatibility list  
+
+| Sitecore Version | Project Version |
+|------------------|-----------------|
+| 10.2             | >=1.0.0         |
+
 
 # Base Configuration
 
