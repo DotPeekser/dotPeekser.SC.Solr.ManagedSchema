@@ -47,6 +47,39 @@ Function Show-AsteriskBanner
   Write-Host $outerStars
 }
 
+function Resolve-MsBuild {
+	$msb2022 = Resolve-Path "${env:ProgramFiles}\Microsoft Visual Studio\*\*\MSBuild\*\bin\msbuild.exe" -ErrorAction SilentlyContinue
+	
+	if ($msb2022) {
+		Write-Host "Found MSBuild 2022 (or later)."
+		Write-Host $msb2022
+		
+		return $msb2022
+	}
+	
+	$msb2017 = Resolve-Path "${env:ProgramFiles(x86)}\Microsoft Visual Studio\*\*\MSBuild\*\bin\msbuild.exe" -ErrorAction SilentlyContinue
+	
+	if ($msb2017) {
+		Write-Host "Found MSBuild 2017 (or later)."
+		Write-Host $msb2017
+		
+		return $msb2017
+	}
+	
+	$msBuild2015 = "${env:ProgramFiles(x86)}\MSBuild\14.0\bin\msbuild.exe"
+	
+	if (-not (Test-Path $msBuild2015)) {
+		throw 'Could not find MSBuild 2015 or later.'
+	}
+	
+	Write-Host "Found MSBuild 2015."
+	Write-Host $msBuild2015
+	
+	return $msBuild2015
+}
+
+$msbuild = Resolve-MsBuild
+
 $repoRoot = "$PSScriptRoot\.."
 $projectName = "dotPeekser.SC.Solr.ManagedSchema"
 $managedSchemaProj = "$repoRoot\src\$projectName\$projectName.csproj"
@@ -55,7 +88,7 @@ $packagePath = "$nuspecFilePath\$projectName.$version.nupkg"
 
 Show-AsteriskBanner "Build project '$projectName'"
 
-$buildResult = msbuild.exe -t:build -restore $managedSchemaProj -p:Configuration=Release
+$buildResult = & $msbuild -t:build -restore $managedSchemaProj -p:Configuration=Release
 
 if (! $?) {
   Write-Error "MS Build failed."
