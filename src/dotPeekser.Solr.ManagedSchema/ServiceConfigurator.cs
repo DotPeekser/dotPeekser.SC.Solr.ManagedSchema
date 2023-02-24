@@ -1,10 +1,10 @@
 ﻿namespace dotPeekser.Solr.ManagedSchema
 {
-    using Microsoft.Extensions.DependencyInjection;
-    using Sitecore.DependencyInjection;
     using dotPeekser.Solr.ManagedSchema.Factories;
     using dotPeekser.Solr.ManagedSchema.Interfaces;
     using dotPeekser.Solr.ManagedSchema.Logging;
+    using Microsoft.Extensions.DependencyInjection;
+    using Sitecore.DependencyInjection;
 
     public class ServiceConfigurator : IServicesConfigurator
     {
