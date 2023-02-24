@@ -1,7 +1,7 @@
 # dotPeekser.SC.Solr.ManagedSchema
 
-[![NuGet version (dotPeekser.SC.Solr.ManagedSchema)](https://img.shields.io/nuget/v/dotPeekser.SC.Solr.ManagedSchema.svg?style=flat-square)](https://www.nuget.org/packages/dotPeekser.SC.Solr.ManagedSchema/)
 [![dotPeekser.SC.Solr.ManagedSchema License](https://img.shields.io/github/license/DotPeekser/dotPeekser.SC.Solr.ManagedSchema?color=blue&style=flat-square  )](/LICENSE)
+[![NuGet version (dotPeekser.SC.Solr.ManagedSchema)](https://img.shields.io/nuget/v/dotPeekser.SC.Solr.ManagedSchema.svg?style=flat-square)](https://www.nuget.org/packages/dotPeekser.SC.Solr.ManagedSchema/)
 <br />
 Provides a processor to configure the managed-schema through Sitecore.  
 The definition is based on the solr documentation: https://solr.apache.org/guide/8_2/schema-api.html  
