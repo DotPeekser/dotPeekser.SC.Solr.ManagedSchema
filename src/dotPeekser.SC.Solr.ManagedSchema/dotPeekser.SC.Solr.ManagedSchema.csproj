@@ -17,8 +17,9 @@
 		<PackageTags>Sitecore Solr;Managed Schema</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+	<ItemGroup Label="Content for the nuget package">
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="App_Config\**\*" Pack="true" PackagePath="content\App_Config;contentFiles\App_Config" />
 	</ItemGroup>
 
 	<ItemGroup>

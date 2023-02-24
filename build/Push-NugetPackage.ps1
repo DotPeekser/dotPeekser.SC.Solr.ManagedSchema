@@ -50,7 +50,7 @@ Function Show-AsteriskBanner
 
 $repoRoot = "$PSScriptRoot\.."
 $nuget = "$repoRoot\tools\nuget.exe"
-$projectName = "dotPeekser.Solr.ManagedSchema"
+$projectName = "dotPeekser.SC.Solr.ManagedSchema"
 $nuspecFilePath = "$repoRoot\nuspec-packages"
 $packagePath = "$nuspecFilePath\$projectName.$version.nupkg"
 
