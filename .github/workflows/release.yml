@@ -1,0 +1,33 @@
+on:
+  push:
+    tags:
+    - "v*"
+    
+env:
+  PROJECT_NAME: dotPeekser.SC.Solr.ManagedSchema
+  PROJECT_PATH: ${GITHUB_WORKSPACE}\src\$PROJECT_NAME\$PROJECT_NAME.csproj
+  NUPKGS_FOLDER: ${GITHUB_WORKSPACE}\nupkgs
+  
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Verify commit exists in origin/main
+      run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git branch --remote --contains | grep origin/main
+    - name: Set VERSION variable from tag
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+    - name: Build
+      run: dotnet build --configuration Release /p:Version=${VERSION}
+    - name: Test
+      run: dotnet test --configuration Release /p:Version=${VERSION} --no-build
+    - name: Pack
+      run: dotnet pack "$PROJECT_PATH" --configuration Release /p:Version=${VERSION} --no-build --output "$NUPKGS_FOLDER"
+    - name: Push
+      run: dotnet nuget push "$NUPKGS_FOLDER\dotPeekser.SC.Solr.ManagedSchema.${VERSION}.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${NUGET_TOKEN}
+      env:
+        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
