@@ -16,11 +16,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - name: Set VERSION variable from tag
-      run: echo "VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      
     - name: Version information
-      run: echo "Using version ${{ VERSION }}"
+      run: echo "Tag name from GITHUB_REF_NAME - $GITHUB_REF_NAME"
       
     - name: Build
       run: dotnet build --configuration Release /p:Version=$VERSION
