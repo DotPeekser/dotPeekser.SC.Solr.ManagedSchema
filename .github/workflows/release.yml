@@ -20,7 +20,7 @@ jobs:
       run: echo "VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       
     - name: Version information
-      run: echo "Using version: $VERSION"
+      run: echo "Using version $VERSION"
       
     - name: Build
       run: dotnet build --configuration Release /p:Version=$VERSION
