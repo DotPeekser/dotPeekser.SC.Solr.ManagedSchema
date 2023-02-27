@@ -16,17 +16,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - name: Set Version
-      run: echo "PACKAGE_VERSION=$GITHUB_REF_NAME" >> $GITHUB_ENV
+    - name: Set PACKAGE_VERSION
+      run: echo "PACKAGE_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+    - name: Test
+      run: echo $PACKAGE_VERSION
       
     - name: Version information
       run: echo "Tag name from PACKAGE_VERSION - $PACKAGE_VERSION"
-      
-    - name: Build
-      run: dotnet build --configuration Release /p:Version=$PACKAGE_VERSION
-      
-    - name: Test
-      run: dotnet test --configuration Release /p:Version=$PACKAGE_VERSION --no-build
-      
-    - name: Pack
-      run: dotnet pack "$PROJECT_PATH" --configuration Release /p:Version=$PACKAGE_VERSION --no-build --output "$NUPKGS_FOLDER"
