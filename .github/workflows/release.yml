@@ -16,19 +16,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
+    - name: Set Version
+      run: echo "PACKAGE_VERSION=$GITHUB_REF_NAME" >> $GITHUB_ENV
+      
     - name: Version information
-      run: echo "Tag name from GITHUB_REF_NAME - $GITHUB_REF_NAME"
+      run: echo "Tag name from PACKAGE_VERSION - $PACKAGE_VERSION"
       
     - name: Build
-      run: dotnet build --configuration Release /p:Version=$VERSION
+      run: dotnet build --configuration Release /p:Version=$PACKAGE_VERSION
       
     - name: Test
-      run: dotnet test --configuration Release /p:Version=$VERSION --no-build
+      run: dotnet test --configuration Release /p:Version=$PACKAGE_VERSION --no-build
       
     - name: Pack
-      run: dotnet pack "$PROJECT_PATH" --configuration Release /p:Version=$VERSION --no-build --output "$NUPKGS_FOLDER"
-      
-    - name: Push
-      run: dotnet nuget push "$NUPKGS_FOLDER\dotPeekser.SC.Solr.ManagedSchema.$VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${NUGET_TOKEN}
-      env:
-        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+      run: dotnet pack "$PROJECT_PATH" --configuration Release /p:Version=$PACKAGE_VERSION --no-build --output "$NUPKGS_FOLDER"
