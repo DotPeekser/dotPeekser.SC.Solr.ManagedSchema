@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v3
       
     - name: Set PACKAGE_VERSION
-      run: echo "PACKAGE_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+      run: echo "PACKAGE_VERSION=${{ github.ref_name }}" >> $env:GITHUB_ENV
     - name: Test
       run: echo $PACKAGE_VERSION
       
