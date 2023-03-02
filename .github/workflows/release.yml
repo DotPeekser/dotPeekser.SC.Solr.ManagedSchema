@@ -21,3 +21,12 @@ jobs:
       
     - name: Version information
       run: echo "Tag name from PACKAGE_VERSION - $env:PACKAGE_VERSION"
+      
+    - name: Build
+      run: dotnet build --configuration Release /p:Version=$VERSION
+      
+    - name: Test
+      run: dotnet test --configuration Release /p:Version=$VERSION --no-build
+      
+    - name: Pack
+      run: dotnet pack "$PROJECT_PATH" --configuration Release /p:Version=$VERSION --no-build --output "$NUPKGS_FOLDER"
