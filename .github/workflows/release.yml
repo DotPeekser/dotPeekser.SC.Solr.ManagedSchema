@@ -5,6 +5,7 @@ on:
     
 env:
   PROJECT_NAME: dotPeekser.SC.Solr.ManagedSchema
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
   PROJECT_PATH: ""
   NUPKGS_FOLDER: ""
   
