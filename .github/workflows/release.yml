@@ -36,3 +36,8 @@ jobs:
       
     - name: Pack
       run: dotnet pack "$env:PROJECT_PATH" --configuration Release /p:Version=$env:PACKAGE_VERSION --no-build --output "$env:NUPKGS_FOLDER"
+    
+    - name: Push
+      run: dotnet nuget push "$env:NUPKGS_FOLDER\dotPeekser.SC.Solr.ManagedSchema.$env:PACKAGE_VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${env:NUGET_TOKEN}
+      env:
+        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
