@@ -8,7 +8,7 @@ The definition is based on the solr documentation: https://solr.apache.org/guide
 
 If a field or type already exists in solr it will be replaced. If you want to delete a specific field, the node needs to have the delete attribute with the value true in place. delete="true"
 
-> Sitecore removes all fields and types by default on every “Populate Schema” process and populates it with his own configured data.
+> Sitecore removes all fields and types by default on every "Populate Schema" process and populates it with his own configured data.
 > This documentation provides a flexible way to add dynamically new definitions to the managed-schema file.
 <br />
 
