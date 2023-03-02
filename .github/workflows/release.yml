@@ -5,8 +5,8 @@ on:
     
 env:
   PROJECT_NAME: dotPeekser.SC.Solr.ManagedSchema
-  PROJECT_PATH: $env:GITHUB_WORKSPACE\src\$env:PROJECT_NAME\$env:PROJECT_NAME.csproj
-  NUPKGS_FOLDER: $env:GITHUB_WORKSPACE\nupkgs
+  PROJECT_PATH: ""
+  NUPKGS_FOLDER: ""
   
 jobs:
   build:
@@ -15,6 +15,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      
+    - name: Set env variable PROJECT_PATH
+      run: echo "PROJECT_PATH=$env:GITHUB_WORKSPACE\src\$env:PROJECT_NAME\$env:PROJECT_NAME.csproj" >> $env:GITHUB_ENV
+    
+    - name: Set env variable NUPKGS_FOLDER
+      run: echo "NUPKGS_FOLDER=$env:GITHUB_WORKSPACE\nupkgs" >> $env:GITHUB_ENV
       
     - name: Set PACKAGE_VERSION
       run: echo "PACKAGE_VERSION=${{ github.ref_name }}" >> $env:GITHUB_ENV
